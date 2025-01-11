@@ -1,19 +1,19 @@
+<!--
+=========================================================
+* Soft UI Dashboard 3 - v1.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard
+* Copyright 2024 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+
 <style>
-  .title {
-    margin: 1em;
-    text-align: center;
-  }
-
-  .subtitle {
-    margin: 2em;
-    text-align: center;
-  }
-
-  .login {
-    margin: 0 auto;
-    max-width: 32em;
-  }
-
   .login #loginOtp {
     display: none;
   }
@@ -23,195 +23,222 @@
   }
 </style>
 
-<h1 class="title">{{hostname}}</h1>
 
-{% if no_users_exist or no_admins_exist %}
-<div class="row">
-<div class="col-md-offset-2 col-md-8">
-  {% if no_users_exist %}
-  <p class="text-danger">There are no users on this system! To make an administrative user,
-  log into this machine using SSH (like when you first set it up) and run:</p>
-  <pre>cd mailinabox
+<div class="container position-sticky z-index-sticky top-0">
+  <div class="row">
+    <div class="col-12">
+      <!-- Navbar -->
+      <nav
+        class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+        <div class="container-fluid d-flex justify-content-center align-items-center pe-0">
+          <a class="navbar-brand font-weight-bolder">
+            {{hostname}}
+          </a>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+    </div>
+  </div>
+</div>
+<main class="main-content  mt-0">
+  {% if no_users_exist or no_admins_exist %}
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      {% if no_users_exist %}
+      <p class="text-danger">There are no users on this system! To make an administrative user,
+        log into this machine using SSH (like when you first set it up) and run:</p>
+      <pre>cd mailinabox
 sudo management/cli.py user add me@{{hostname}}
 sudo management/cli.py user make-admin me@{{hostname}}</pre>
-  {% else %}
-  <p class="text-danger">There are no administrative users on this system! To make an administrative user,
-  log into this machine using SSH (like when you first set it up) and run:</p>
-  <pre>cd mailinabox
+      {% else %}
+      <p class="text-danger">There are no administrative users on this system! To make an administrative user,
+        log into this machine using SSH (like when you first set it up) and run:</p>
+      <pre>cd mailinabox
 sudo management/cli.py user make-admin me@{{hostname}}</pre>
+      {% endif %}
+      <hr>
+    </div>
+  </div>
   {% endif %}
-  <hr>
-</div>
-</div>
-{% endif %}
+  <section>
+    <div class="page-header min-vh-100">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+            <div class="card card-plain mt-8">
+              <div class="card-header pb-0 text-left bg-transparent">
+                <h3 class="font-weight-bolder text-info text-gradient">Welcome back</h3>
+                <p class="mb-0">Enter your email and password to sign in</p>
+              </div>
+              <div class="card-body login">
+                <form id="loginForm" role="form" onsubmit="do_login(); return false;" method="get">
+                  <label>Email</label>
+                  <div class="mb-3">
+                    <input type="email" class="form-control" id="loginEmail" placeholder="Email" aria-label="Email"
+                      aria-describedby="email-addon">
+                  </div>
+                  <label>Password</label>
+                  <div class="mb-3">
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Password"
+                      aria-label="Password" aria-describedby="password-addon">
+                  </div>
+                  <div class="mb-3" id="loginOtp">
 
-<p class="subtitle">Log in here for your Mail-in-a-Box control panel.</p>
-
-<div class="login">
-  <form id="loginForm" class="form-horizontal" role="form" onsubmit="do_login(); return false;" method="get">
-    <div class="form-group">
-      <label for="inputEmail3" class="col-sm-3 control-label">Email</label>
-      <div class="col-sm-9">
-        <input name="email" type="email" class="form-control" id="loginEmail" placeholder="Email">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
-      <div class="col-sm-9">
-        <input name="password" type="password" class="form-control" id="loginPassword" placeholder="Password">
-      </div>
-    </div>
-    <div class="form-group" id="loginOtp">
-      <label for="loginOtpInput" class="col-sm-3 control-label">Code</label>
-      <div class="col-sm-9">
-          <input type="text" class="form-control" id="loginOtpInput" placeholder="6-digit code" autocomplete="off">
-          <div class="help-block" style="margin-top: 5px; font-size: 90%">Enter the six-digit code generated by your two factor authentication app.</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-3 col-sm-9">
-        <div class="checkbox">
-          <label>
-            <input name='remember' type="checkbox" id="loginRemember"> Remember me
-          </label>
+                    <label>2fA Code</label>
+                    <input type="text" class="form-control" id="loginOtpInput" placeholder="6-digit code"
+                      aria-label="Code" aria-describedby="code-addon" autocomplete="off">
+                  </div>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="loginRemember" checked="">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign in</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
+              <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
+                style="background-image:url('/admin/assets/softui/images/curved10.jpg')"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="form-group">
-      <div class="col-sm-offset-3 col-sm-9">
-        <button type="submit" class="btn btn-default">Sign in</button>
-      </div>
-    </div>
-  </form>
-</div>
-
+  </section>
+</main>
 <script>
-function do_login() {
-  if ($('#loginEmail').val() == "") {
-    show_modal_error("Login Failed", "Enter your email address.", function() {
-      $('#loginEmail').focus();
-    });
-    return false;
-  }
-
-  if ($('#loginPassword').val() == "") {
-    show_modal_error("Login Failed", "Enter your email password.", function() {
-        $('#loginPassword').focus();
-    });
-    return false;
-  }
-
-  // Exchange the email address & password for an API key.
-  api_credentials = { username: $('#loginEmail').val(), session_key: $('#loginPassword').val() }
-
-  api(
-  "/login",
-  "POST",
-  {},
-  function(response) {
-    // This API call always succeeds. It returns a JSON object indicating
-    // whether the request was authenticated or not.
-    if (response.status != 'ok') {
-      if (response.status === 'missing-totp-token' || (response.status === 'invalid' && response.reason == 'invalid-totp-token')) {
-        $('#loginForm').addClass('is-twofactor');
-        if (response.reason === "invalid-totp-token") {
-          show_modal_error("Login Failed", "Incorrect two factor authentication token.");
-        } else {
-          setTimeout(() => {
-              $('#loginOtpInput').focus();
-          });
-        }
-      } else {
-        $('#loginForm').removeClass('is-twofactor');
-
-        // Show why the login failed.
-        show_modal_error("Login Failed", response.reason)
-
-        // Reset any saved credentials.
-        do_logout();
-      }
-    } else if (!("api_key" in response)) {
-      // Login succeeded but user might not be authorized!
-      show_modal_error("Login Failed", "You are not an administrator on this system.")
-
-      // Reset any saved credentials.
-      do_logout();
-
-    } else {
-      // Login succeeded.
-
-      // Save the new credentials.
-      api_credentials = { username: response.email,
-                          session_key: response.api_key,
-                          privileges: response.privileges };
-
-      // Try to wipe the username/password information.
-      $('#loginEmail').val('');
-      $('#loginPassword').val('');
-      $('#loginOtpInput').val('');
-      $('#loginForm').removeClass('is-twofactor');
-
-      // Remember the credentials.
-      if (typeof localStorage != 'undefined' && typeof sessionStorage != 'undefined') {
-        if ($('#loginRemember').val()) {
-          localStorage.setItem("miab-cp-credentials", JSON.stringify(api_credentials));
-          sessionStorage.removeItem("miab-cp-credentials");
-        } else {
-          localStorage.removeItem("miab-cp-credentials");
-          sessionStorage.setItem("miab-cp-credentials", JSON.stringify(api_credentials));
-        }
-      }
-
-      // Toggle menus.
-      show_hide_menus();
-
-      // Open the next panel the user wants to go to. Do this after the XHR response
-      // is over so that we don't start a new XHR request while this one is finishing,
-      // which confuses the loading indicator.
-      setTimeout(function() {
-        if (window.location.hash) {
-          var panelid = window.location.hash.substring(1);
-          show_panel(panelid);
-        } else {
-          show_panel(
-            !switch_back_to_panel || switch_back_to_panel == "login"
-            ? 'welcome'
-            : switch_back_to_panel)
-        }
-      }, 300);
-
-    }
-  },
-  undefined,
-  {
-    'x-auth-token': $('#loginOtpInput').val()
-  });
-}
-
-function show_login() {
-  $('#loginForm').removeClass('is-twofactor');
-  $('#loginOtpInput').val('');
-  $('#loginEmail,#loginPassword').each(function() {
-    var input = $(this);
-    if (!$.trim(input.val())) {
-      input.focus();
+  function do_login() {
+    if ($('#loginEmail').val() == "") {
+      show_modal_error("Login Failed", "Enter your email address.", function () {
+        $('#loginEmail').focus();
+      });
       return false;
     }
-  });
-}
 
-function show_hide_menus() {
-  var is_logged_in = (api_credentials != null);
-  var privs = api_credentials ? api_credentials.privileges : [];
-  $('.if-logged-in').toggle(is_logged_in);
-  $('.if-logged-in-admin, .if-logged-in-not-admin').toggle(false);
-  if (is_logged_in) {
-    $('.if-logged-in-not-admin').toggle(true);
-    privs.forEach(function(priv) {
-      $('.if-logged-in-' + priv).toggle(true);
-      $('.if-logged-in-not-' + priv).toggle(false);
+    if ($('#loginPassword').val() == "") {
+      show_modal_error("Login Failed", "Enter your email password.", function () {
+        $('#loginPassword').focus();
+      });
+      return false;
+    }
+
+    // Exchange the email address & password for an API key.
+    api_credentials = { username: $('#loginEmail').val(), session_key: $('#loginPassword').val() }
+
+    api(
+      "/login",
+      "POST",
+      {},
+      function (response) {
+        // This API call always succeeds. It returns a JSON object indicating
+        // whether the request was authenticated or not.
+        if (response.status != 'ok') {
+          if (response.status === 'missing-totp-token' || (response.status === 'invalid' && response.reason == 'invalid-totp-token')) {
+            $('#loginForm').addClass('is-twofactor');
+            if (response.reason === "invalid-totp-token") {
+              show_modal_error("Login Failed", "Incorrect two factor authentication token.");
+            } else {
+              setTimeout(() => {
+                $('#loginOtpInput').focus();
+              });
+            }
+          } else {
+            $('#loginForm').removeClass('is-twofactor');
+
+            // Show why the login failed.
+            show_modal_error("Login Failed", response.reason)
+
+            // Reset any saved credentials.
+            do_logout();
+          }
+        } else if (!("api_key" in response)) {
+          // Login succeeded but user might not be authorized!
+          show_modal_error("Login Failed", "You are not an administrator on this system.")
+
+          // Reset any saved credentials.
+          do_logout();
+
+        } else {
+          // Login succeeded.
+
+          // Save the new credentials.
+          api_credentials = {
+            username: response.email,
+            session_key: response.api_key,
+            privileges: response.privileges
+          };
+
+          // Try to wipe the username/password information.
+          $('#loginEmail').val('');
+          $('#loginPassword').val('');
+          $('#loginOtpInput').val('');
+          $('#loginForm').removeClass('is-twofactor');
+
+          // Remember the credentials.
+          if (typeof localStorage != 'undefined' && typeof sessionStorage != 'undefined') {
+            if ($('#loginRemember').val()) {
+              localStorage.setItem("miab-cp-credentials", JSON.stringify(api_credentials));
+              sessionStorage.removeItem("miab-cp-credentials");
+            } else {
+              localStorage.removeItem("miab-cp-credentials");
+              sessionStorage.setItem("miab-cp-credentials", JSON.stringify(api_credentials));
+            }
+          }
+
+          // Toggle menus.
+          show_hide_menus();
+
+          // Open the next panel the user wants to go to. Do this after the XHR response
+          // is over so that we don't start a new XHR request while this one is finishing,
+          // which confuses the loading indicator.
+          setTimeout(function () {
+            if (window.location.hash) {
+              var panelid = window.location.hash.substring(1);
+              show_panel(panelid);
+            } else {
+              show_panel(
+                !switch_back_to_panel || switch_back_to_panel == "login"
+                  ? 'welcome'
+                  : switch_back_to_panel)
+            }
+          }, 300);
+
+        }
+      },
+      undefined,
+      {
+        'x-auth-token': $('#loginOtpInput').val()
+      });
+  }
+
+  function show_login() {
+    $('#loginForm').removeClass('is-twofactor');
+    $('#loginOtpInput').val('');
+    $('#loginEmail,#loginPassword').each(function () {
+      var input = $(this);
+      if (!$.trim(input.val())) {
+        input.focus();
+        return false;
+      }
     });
   }
-  $('.if-not-logged-in').toggle(!is_logged_in);
-}
+
+  function show_hide_menus() {
+    var is_logged_in = (api_credentials != null);
+    var privs = api_credentials ? api_credentials.privileges : [];
+    $('.if-logged-in').toggle(is_logged_in);
+    $('.if-logged-in-admin, .if-logged-in-not-admin').toggle(false);
+    if (is_logged_in) {
+      $('.if-logged-in-not-admin').toggle(true);
+      privs.forEach(function (priv) {
+        $('.if-logged-in-' + priv).toggle(true);
+        $('.if-logged-in-not-' + priv).toggle(false);
+      });
+    }
+    $('.if-not-logged-in').toggle(!is_logged_in);
+  }
 </script>

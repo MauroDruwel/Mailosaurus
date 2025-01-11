@@ -9,9 +9,13 @@
 
         <meta name="robots" content="noindex, nofollow">
 
-        <link rel="stylesheet" href="/admin/assets/bootstrap/css/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="/admin/assets/bootstrap/css/bootstrap.min.css">-->
+        <!--Fonts and icons-->
+        <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/admin/assets/softui/css/soft-ui-dashboard.css?v=1.1.0" rel="stylesheet" />
         <style>
-            body {
+            /*body {
               overflow-y: scroll;
               padding-bottom: 20px;
             }
@@ -61,42 +65,42 @@
 
             ol li {
               margin-bottom: 1em;
-            }
+            }*/
 
             .if-logged-in { display: none; }
             .if-logged-in-admin { display: none; }
 
       /* The below only gets used if it is supported */
-      @media (prefers-color-scheme: dark) {
-        /* Invert invert lightness but not hue */
+      /* @media (prefers-color-scheme: dark) {
+        /* Invert invert lightness but not hue 
         html {
           filter: invert(100%) hue-rotate(180deg);
         }
 
-        /* Override Bootstrap theme here to give more contrast. The black turns to white by the filter. */
+        /* Override Bootstrap theme here to give more contrast. The black turns to white by the filter. 
         .form-control {
           color: black !important;
         }
 
-        /* Revert the invert for the navbar */
+        /* Revert the invert for the navbar 
         button, div.navbar {
           filter: invert(100%) hue-rotate(180deg);
         }
 
-        /* Revert the revert for the dropdowns */
+        /* Revert the revert for the dropdowns 
         ul.dropdown-menu {
           filter: invert(100%) hue-rotate(180deg);
         }
-      }
+      } */
         </style>
-        <link rel="stylesheet" href="/admin/assets/bootstrap/css/bootstrap-theme.min.css">
+        <!--<link rel="stylesheet" href="/admin/assets/bootstrap/css/bootstrap-theme.min.css">-->
     </head>
     <body>
 
     <!--[if lt IE 8]><p>Internet Explorer version 8 or any modern web browser is required to use this website, sorry.<![endif]-->
     <!--[if gt IE 7]><!-->
 
-    <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div id="navbar" class="navbar navbar-inverse navbar-static-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -144,7 +148,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="">
       <div id="panel_welcome" class="admin_panel">
       {% include "welcome.html" %}
       </div>
@@ -235,7 +239,27 @@
 
         <script src="/admin/assets/jquery.min.js"></script>
         <script src="/admin/assets/bootstrap/js/bootstrap.min.js"></script>
-
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.getElementById('navbar');
+            var panelLogin = document.getElementById('panel_login');
+        
+            function toggleNavbar() {
+              if (panelLogin && panelLogin.style.display !== 'none') {
+                navbar.style.display = 'none';
+              } else {
+                navbar.style.display = 'block';
+              }
+            }
+        
+            // Initial check
+            toggleNavbar();
+        
+            // Add event listener to panel_login to detect changes
+            var observer = new MutationObserver(toggleNavbar);
+            observer.observe(panelLogin, { attributes: true, childList: true, subtree: true });
+          });
+        </script>
         <script>
 var global_modal_state = null;
 var global_modal_funcs = null;
