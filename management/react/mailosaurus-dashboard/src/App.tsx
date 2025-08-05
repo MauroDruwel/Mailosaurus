@@ -4,6 +4,16 @@ import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import UsersPage from './pages/UsersPage';
+import AliasesPage from './pages/AliasesPage';
+import SystemStatusPage from './pages/SystemStatusPage';
+import SSLPage from './pages/SSLPage';
+import SystemBackupPage from './pages/SystemBackupPage';
+import CustomDNSPage from './pages/CustomDNSPage';
+import ExternalDNSPage from './pages/ExternalDNSPage';
+import WebPage from './pages/WebPage';
+import MFAPage from './pages/MFAPage';
+import MailGuidePage from './pages/MailGuidePage';
+import MuninPage from './pages/MuninPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, loading } = useAuth();
@@ -44,82 +54,52 @@ function App() {
           } />
           <Route path="/aliases" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Email Aliases</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <AliasesPage />
             </ProtectedRoute>
           } />
           <Route path="/mail-guide" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Mail Guide</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <MailGuidePage />
             </ProtectedRoute>
           } />
           <Route path="/system-status" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">System Status</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <SystemStatusPage />
             </ProtectedRoute>
           } />
           <Route path="/ssl" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">SSL Certificates</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <SSLPage />
             </ProtectedRoute>
           } />
           <Route path="/web" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Web</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <WebPage />
             </ProtectedRoute>
           } />
           <Route path="/custom-dns" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Custom DNS</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <CustomDNSPage />
             </ProtectedRoute>
           } />
           <Route path="/external-dns" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">External DNS</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <ExternalDNSPage />
             </ProtectedRoute>
           } />
           <Route path="/system-backup" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">System Backup</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <SystemBackupPage />
             </ProtectedRoute>
           } />
           <Route path="/mfa" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Multi-Factor Authentication</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <MFAPage />
             </ProtectedRoute>
           } />
           <Route path="/munin" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Munin</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <MuninPage />
             </ProtectedRoute>
           } />
         </Routes>
