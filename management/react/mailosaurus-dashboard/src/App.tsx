@@ -7,6 +7,9 @@ import UsersPage from './pages/UsersPage';
 import AliasesPage from './pages/AliasesPage';
 import SystemStatusPage from './pages/SystemStatusPage';
 import SSLPage from './pages/SSLPage';
+import SystemBackupPage from './pages/SystemBackupPage';
+import CustomDNSPage from './pages/CustomDNSPage';
+import ExternalDNSPage from './pages/ExternalDNSPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, loading } = useAuth();
@@ -78,26 +81,17 @@ function App() {
           } />
           <Route path="/custom-dns" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Custom DNS</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <CustomDNSPage />
             </ProtectedRoute>
           } />
           <Route path="/external-dns" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">External DNS</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <ExternalDNSPage />
             </ProtectedRoute>
           } />
           <Route path="/system-backup" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">System Backup</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <SystemBackupPage />
             </ProtectedRoute>
           } />
           <Route path="/mfa" element={
