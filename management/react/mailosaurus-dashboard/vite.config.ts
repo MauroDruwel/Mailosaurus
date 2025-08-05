@@ -1,0 +1,10 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
+import tailwindcss from '@tailwindcss/vite'
+import { viteSingleFile } from 'vite-plugin-singlefile'
+
+// https://vite.dev/config/
+export default defineConfig({
+  base: '/admin/',
+  plugins: [react(), tailwindcss(), viteSingleFile()],
+})
