@@ -10,6 +10,10 @@ import SSLPage from './pages/SSLPage';
 import SystemBackupPage from './pages/SystemBackupPage';
 import CustomDNSPage from './pages/CustomDNSPage';
 import ExternalDNSPage from './pages/ExternalDNSPage';
+import WebPage from './pages/WebPage';
+import MFAPage from './pages/MFAPage';
+import MailGuidePage from './pages/MailGuidePage';
+import MuninPage from './pages/MuninPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, loading } = useAuth();
@@ -55,10 +59,7 @@ function App() {
           } />
           <Route path="/mail-guide" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Mail Guide</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <MailGuidePage />
             </ProtectedRoute>
           } />
           <Route path="/system-status" element={
@@ -73,10 +74,7 @@ function App() {
           } />
           <Route path="/web" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Web</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <WebPage />
             </ProtectedRoute>
           } />
           <Route path="/custom-dns" element={
@@ -96,18 +94,12 @@ function App() {
           } />
           <Route path="/mfa" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Multi-Factor Authentication</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <MFAPage />
             </ProtectedRoute>
           } />
           <Route path="/munin" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Munin</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <MuninPage />
             </ProtectedRoute>
           } />
         </Routes>
