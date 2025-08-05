@@ -4,6 +4,9 @@ import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import UsersPage from './pages/UsersPage';
+import AliasesPage from './pages/AliasesPage';
+import SystemStatusPage from './pages/SystemStatusPage';
+import SSLPage from './pages/SSLPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, loading } = useAuth();
@@ -44,10 +47,7 @@ function App() {
           } />
           <Route path="/aliases" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">Email Aliases</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <AliasesPage />
             </ProtectedRoute>
           } />
           <Route path="/mail-guide" element={
@@ -60,18 +60,12 @@ function App() {
           } />
           <Route path="/system-status" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">System Status</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <SystemStatusPage />
             </ProtectedRoute>
           } />
           <Route path="/ssl" element={
             <ProtectedRoute>
-              <div className="text-center py-12">
-                <h1 className="text-2xl font-bold text-slate-900 mb-4">SSL Certificates</h1>
-                <p className="text-slate-600">Coming soon...</p>
-              </div>
+              <SSLPage />
             </ProtectedRoute>
           } />
           <Route path="/web" element={
