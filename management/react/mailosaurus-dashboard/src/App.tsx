@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './hooks/useAuth';
 import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
@@ -17,6 +17,7 @@ import MuninPage from './pages/MuninPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isAdmin, loading } = useAuth();
+  const navigate = useNavigate();
   
   if (loading) {
     return (
@@ -48,7 +49,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
               You need administrator privileges to access this control panel.
             </p>
             <button
-              onClick={() => window.location.href = '/admin/login'}
+              onClick={() => navigate('/login')}
               className="w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-200"
             >
               Sign in as Administrator
@@ -65,7 +66,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 function App() {
   return (
     <AuthProvider>
-      <Router basename="/admin">
+      <Router>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={
