@@ -63,6 +63,10 @@ class ApiClient {
       if (!response.ok) {
         if (response.status === 401 || response.status === 403) {
           this.logout();
+          // Redirect to login page if we're not already there
+          if (window.location.pathname !== '/admin/login') {
+            window.location.href = '/admin/login';
+          }
           throw new Error('Authentication failed');
         }
         

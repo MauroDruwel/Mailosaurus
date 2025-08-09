@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Activity, 
   Users, 
@@ -25,6 +26,7 @@ interface DashboardStats {
 }
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -231,22 +233,34 @@ export default function DashboardPage() {
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
         <h2 className="text-xl font-semibold text-slate-900 mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button className="flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-200 hover:from-blue-100 hover:to-cyan-100 transition-all duration-200">
+          <button 
+            onClick={() => navigate('/users')}
+            className="flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-200 hover:from-blue-100 hover:to-cyan-100 transition-all duration-200"
+          >
             <Users className="w-5 h-5 text-blue-600" />
-            <span className="font-medium text-blue-900">Add User</span>
+            <span className="font-medium text-blue-900">Manage Users</span>
           </button>
           
-          <button className="flex items-center space-x-3 p-4 bg-gradient-to-r from-purple-50 to-violet-50 rounded-xl border border-purple-200 hover:from-purple-100 hover:to-violet-100 transition-all duration-200">
+          <button 
+            onClick={() => navigate('/aliases')}
+            className="flex items-center space-x-3 p-4 bg-gradient-to-r from-purple-50 to-violet-50 rounded-xl border border-purple-200 hover:from-purple-100 hover:to-violet-100 transition-all duration-200"
+          >
             <Mail className="w-5 h-5 text-purple-600" />
-            <span className="font-medium text-purple-900">Create Alias</span>
+            <span className="font-medium text-purple-900">Manage Aliases</span>
           </button>
           
-          <button className="flex items-center space-x-3 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-200 hover:from-emerald-100 hover:to-teal-100 transition-all duration-200">
+          <button 
+            onClick={() => navigate('/ssl')}
+            className="flex items-center space-x-3 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-200 hover:from-emerald-100 hover:to-teal-100 transition-all duration-200"
+          >
             <Shield className="w-5 h-5 text-emerald-600" />
             <span className="font-medium text-emerald-900">SSL Status</span>
           </button>
           
-          <button className="flex items-center space-x-3 p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border border-orange-200 hover:from-orange-100 hover:to-red-100 transition-all duration-200">
+          <button 
+            onClick={() => navigate('/system-status')}
+            className="flex items-center space-x-3 p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border border-orange-200 hover:from-orange-100 hover:to-red-100 transition-all duration-200"
+          >
             <Activity className="w-5 h-5 text-orange-600" />
             <span className="font-medium text-orange-900">System Check</span>
           </button>
