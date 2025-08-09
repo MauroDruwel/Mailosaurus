@@ -19,6 +19,7 @@ interface User {
   privileges: string[];
   quota: string;
   mailbox: string;
+  password?: string; // For editing only
 }
 
 export default function UsersPage() {
@@ -26,6 +27,8 @@ export default function UsersPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
   const [newUser, setNewUser] = useState({
     email: '',
     password: '',
@@ -94,6 +97,84 @@ export default function UsersPage() {
       password += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     setNewUser({ ...newUser, password });
+  };
+
+  const handleEditUser = (user: User) => {
+    setEditingUser(user);
+    setShowEditForm(true);
+  };
+
+  const handleDeleteUser = async (userEmail: string) => {
+    if (!confirm(`Are you sure you want to delete the user ${userEmail}? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('email', userEmail);
+
+      const response = await api.post('/mail/users/remove', formData);
+
+      if (response.success) {
+        await fetchUsers();
+      } else {
+        alert('Failed to delete user: ' + response.error);
+      }
+    } catch (error) {
+      console.error('Failed to delete user:', error);
+      alert('Failed to delete user');
+    }
+  };
+
+  const handleUpdateUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!editingUser) return;
+
+    try {
+      // Update password if provided
+      if (editingUser.password) {
+        const passwordFormData = new FormData();
+        passwordFormData.append('email', editingUser.email);
+        passwordFormData.append('password', editingUser.password);
+        
+        await api.post('/mail/users/password', passwordFormData);
+      }
+
+      // Update quota
+      const quotaFormData = new FormData();
+      quotaFormData.append('email', editingUser.email);
+      quotaFormData.append('quota', editingUser.quota || '0');
+      
+      await api.post('/mail/users/quota', quotaFormData);
+
+      // Update privileges
+      const currentPrivileges = editingUser.privileges || [];
+      const shouldBeAdmin = currentPrivileges.includes('admin');
+      
+      // Remove admin privilege if user shouldn't have it
+      if (!shouldBeAdmin && users.find(u => u.email === editingUser.email)?.privileges?.includes('admin')) {
+        const removeAdminFormData = new FormData();
+        removeAdminFormData.append('email', editingUser.email);
+        removeAdminFormData.append('privilege', 'admin');
+        await api.post('/mail/users/privileges/remove', removeAdminFormData);
+      }
+      
+      // Add admin privilege if user should have it
+      if (shouldBeAdmin && !users.find(u => u.email === editingUser.email)?.privileges?.includes('admin')) {
+        const addAdminFormData = new FormData();
+        addAdminFormData.append('email', editingUser.email);
+        addAdminFormData.append('privilege', 'admin');
+        await api.post('/mail/users/privileges/add', addAdminFormData);
+      }
+
+      await fetchUsers();
+      setShowEditForm(false);
+      setEditingUser(null);
+    } catch (error) {
+      console.error('Failed to update user:', error);
+      alert('Failed to update user');
+    }
   };
 
   const filteredUsers = users.filter(user =>
@@ -244,6 +325,110 @@ export default function UsersPage() {
         </div>
       )}
 
+      {/* Edit User Form */}
+      {showEditForm && editingUser && (
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold text-slate-900">Edit User: {editingUser.email}</h2>
+            <button
+              onClick={() => {
+                setShowEditForm(false);
+                setEditingUser(null);
+              }}
+              className="text-slate-400 hover:text-slate-600"
+            >
+              ✕
+            </button>
+          </div>
+          
+          <form onSubmit={handleUpdateUser} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  New Password (leave blank to keep current)
+                </label>
+                <div className="flex space-x-2">
+                  <input
+                    type="password"
+                    value={editingUser.password || ''}
+                    onChange={(e) => setEditingUser({ ...editingUser, password: e.target.value })}
+                    className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter new password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                      let password = '';
+                      for (let i = 0; i < 12; i++) {
+                        password += chars.charAt(Math.floor(Math.random() * chars.length));
+                      }
+                      setEditingUser({ ...editingUser, password });
+                    }}
+                    className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors"
+                    title="Generate random password"
+                  >
+                    <Key className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Role
+                </label>
+                <select
+                  value={editingUser.privileges.includes('admin') ? 'admin' : 'user'}
+                  onChange={(e) => {
+                    const isAdmin = e.target.value === 'admin';
+                    setEditingUser({ 
+                      ...editingUser, 
+                      privileges: isAdmin ? ['admin'] : [] 
+                    });
+                  }}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="user">Normal User</option>
+                  <option value="admin">Administrator</option>
+                </select>
+              </div>
+              
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Quota (0 = unlimited)
+                </label>
+                <input
+                  type="text"
+                  value={editingUser.quota || '0'}
+                  onChange={(e) => setEditingUser({ ...editingUser, quota: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="0"
+                />
+              </div>
+            </div>
+            
+            <div className="flex space-x-3">
+              <button
+                type="submit"
+                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-200"
+              >
+                Update User
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowEditForm(false);
+                  setEditingUser(null);
+                }}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
       {/* Search */}
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
         <div className="relative">
@@ -331,13 +516,24 @@ export default function UsersPage() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
                     <div className="flex items-center space-x-2">
-                      <button className="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors">
+                      <button 
+                        onClick={() => handleEditUser(user)}
+                        className="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+                        title="Edit user"
+                      >
                         <Edit3 className="w-4 h-4" />
                       </button>
-                      <button className="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-red-600 transition-colors">
+                      <button 
+                        onClick={() => handleDeleteUser(user.email)}
+                        className="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-red-600 transition-colors"
+                        title="Delete user"
+                      >
                         <Trash2 className="w-4 h-4" />
                       </button>
-                      <button className="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors">
+                      <button 
+                        className="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+                        title="More options"
+                      >
                         <MoreHorizontal className="w-4 h-4" />
                       </button>
                     </div>

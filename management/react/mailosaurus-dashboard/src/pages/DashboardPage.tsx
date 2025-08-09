@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Activity, 
   Users, 
@@ -25,6 +26,7 @@ interface DashboardStats {
 }
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -123,14 +125,14 @@ export default function DashboardPage() {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-[rgb(var(--text-primary))]">Dashboard</h1>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 animate-pulse">
-              <div className="h-4 bg-slate-200 rounded w-3/4 mb-4"></div>
-              <div className="h-8 bg-slate-200 rounded w-1/2"></div>
+            <div key={i} className="bg-[rgb(var(--bg-surface))] rounded-2xl p-6 shadow-sm border border-[rgb(var(--border))] animate-pulse">
+              <div className="h-4 bg-[rgb(var(--bg-secondary))] rounded w-3/4 mb-4"></div>
+              <div className="h-8 bg-[rgb(var(--bg-secondary))] rounded w-1/2"></div>
             </div>
           ))}
         </div>
@@ -143,12 +145,12 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-          <p className="text-slate-600 mt-1">Welcome to your mail server control panel</p>
+          <h1 className="text-3xl font-bold text-[rgb(var(--text-primary))]">Dashboard</h1>
+          <p className="text-[rgb(var(--text-secondary))] mt-1">Welcome to your mail server control panel</p>
         </div>
         <div className="flex items-center space-x-2">
           {stats && getStatusIcon(stats.systemStatus.status)}
-          <span className="text-sm font-medium text-slate-700">
+          <span className="text-sm font-medium text-[rgb(var(--text-primary))]">
             {stats?.systemStatus.message}
           </span>
         </div>
@@ -157,13 +159,13 @@ export default function DashboardPage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Users Card */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-200">
+        <div className="bg-[rgb(var(--bg-surface))] rounded-2xl p-6 shadow-sm border border-[rgb(var(--border))] hover:shadow-md transition-shadow duration-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Total Users</p>
-              <p className="text-3xl font-bold text-slate-900 mt-1">{stats?.userCount || 0}</p>
+              <p className="text-sm font-medium text-[rgb(var(--text-secondary))]">Total Users</p>
+              <p className="text-3xl font-bold text-[rgb(var(--text-primary))] mt-1">{stats?.userCount || 0}</p>
             </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-[rgb(var(--accent-primary))] to-cyan-600 rounded-xl flex items-center justify-center">
               <Users className="w-6 h-6 text-white" />
             </div>
           </div>
@@ -174,13 +176,13 @@ export default function DashboardPage() {
         </div>
 
         {/* Aliases Card */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-200">
+        <div className="bg-[rgb(var(--bg-surface))] rounded-2xl p-6 shadow-sm border border-[rgb(var(--border))] hover:shadow-md transition-shadow duration-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Email Aliases</p>
-              <p className="text-3xl font-bold text-slate-900 mt-1">{stats?.aliasCount || 0}</p>
+              <p className="text-sm font-medium text-[rgb(var(--text-secondary))]">Email Aliases</p>
+              <p className="text-3xl font-bold text-[rgb(var(--text-primary))] mt-1">{stats?.aliasCount || 0}</p>
             </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-[rgb(var(--accent-secondary))] to-violet-600 rounded-xl flex items-center justify-center">
               <Mail className="w-6 h-6 text-white" />
             </div>
           </div>
@@ -191,11 +193,11 @@ export default function DashboardPage() {
         </div>
 
         {/* Domains Card */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-200">
+        <div className="bg-[rgb(var(--bg-surface))] rounded-2xl p-6 shadow-sm border border-[rgb(var(--border))] hover:shadow-md transition-shadow duration-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Domains</p>
-              <p className="text-3xl font-bold text-slate-900 mt-1">{stats?.domainCount || 0}</p>
+              <p className="text-sm font-medium text-[rgb(var(--text-secondary))]">Domains</p>
+              <p className="text-3xl font-bold text-[rgb(var(--text-primary))] mt-1">{stats?.domainCount || 0}</p>
             </div>
             <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
               <Server className="w-6 h-6 text-white" />
@@ -208,11 +210,11 @@ export default function DashboardPage() {
         </div>
 
         {/* System Status Card */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-200">
+        <div className="bg-[rgb(var(--bg-surface))] rounded-2xl p-6 shadow-sm border border-[rgb(var(--border))] hover:shadow-md transition-shadow duration-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">System Status</p>
-              <p className="text-lg font-semibold text-slate-900 mt-1 capitalize">
+              <p className="text-sm font-medium text-[rgb(var(--text-secondary))]">System Status</p>
+              <p className="text-lg font-semibold text-[rgb(var(--text-primary))] mt-1 capitalize">
                 {stats?.systemStatus.status || 'Unknown'}
               </p>
             </div>
@@ -222,31 +224,43 @@ export default function DashboardPage() {
           </div>
           <div className="flex items-center mt-4 text-sm">
             {stats && getStatusIcon(stats.systemStatus.status)}
-            <span className="ml-1 text-slate-600">Last checked now</span>
+            <span className="ml-1 text-[rgb(var(--text-secondary))]">Last checked now</span>
           </div>
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <h2 className="text-xl font-semibold text-slate-900 mb-4">Quick Actions</h2>
+      <div className="bg-[rgb(var(--bg-surface))] rounded-2xl p-6 shadow-sm border border-[rgb(var(--border))]">
+        <h2 className="text-xl font-semibold text-[rgb(var(--text-primary))] mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button className="flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-200 hover:from-blue-100 hover:to-cyan-100 transition-all duration-200">
+          <button 
+            onClick={() => navigate('/users')}
+            className="flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-200 hover:from-blue-100 hover:to-cyan-100 transition-all duration-200"
+          >
             <Users className="w-5 h-5 text-blue-600" />
-            <span className="font-medium text-blue-900">Add User</span>
+            <span className="font-medium text-blue-900">Manage Users</span>
           </button>
           
-          <button className="flex items-center space-x-3 p-4 bg-gradient-to-r from-purple-50 to-violet-50 rounded-xl border border-purple-200 hover:from-purple-100 hover:to-violet-100 transition-all duration-200">
+          <button 
+            onClick={() => navigate('/aliases')}
+            className="flex items-center space-x-3 p-4 bg-gradient-to-r from-purple-50 to-violet-50 rounded-xl border border-purple-200 hover:from-purple-100 hover:to-violet-100 transition-all duration-200"
+          >
             <Mail className="w-5 h-5 text-purple-600" />
-            <span className="font-medium text-purple-900">Create Alias</span>
+            <span className="font-medium text-purple-900">Manage Aliases</span>
           </button>
           
-          <button className="flex items-center space-x-3 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-200 hover:from-emerald-100 hover:to-teal-100 transition-all duration-200">
+          <button 
+            onClick={() => navigate('/ssl')}
+            className="flex items-center space-x-3 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-200 hover:from-emerald-100 hover:to-teal-100 transition-all duration-200"
+          >
             <Shield className="w-5 h-5 text-emerald-600" />
             <span className="font-medium text-emerald-900">SSL Status</span>
           </button>
           
-          <button className="flex items-center space-x-3 p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border border-orange-200 hover:from-orange-100 hover:to-red-100 transition-all duration-200">
+          <button 
+            onClick={() => navigate('/system-status')}
+            className="flex items-center space-x-3 p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border border-orange-200 hover:from-orange-100 hover:to-red-100 transition-all duration-200"
+          >
             <Activity className="w-5 h-5 text-orange-600" />
             <span className="font-medium text-orange-900">System Check</span>
           </button>
@@ -254,32 +268,32 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <h2 className="text-xl font-semibold text-slate-900 mb-4">System Information</h2>
+      <div className="bg-[rgb(var(--bg-surface))] rounded-2xl p-6 shadow-sm border border-[rgb(var(--border))]">
+        <h2 className="text-xl font-semibold text-[rgb(var(--text-primary))] mb-4">System Information</h2>
         <div className="space-y-3">
           <div className="flex items-center justify-between py-2">
-            <span className="text-slate-600">Mail Server</span>
+            <span className="text-[rgb(var(--text-secondary))]">Mail Server</span>
             <span className="flex items-center text-green-600">
               <CheckCircle className="w-4 h-4 mr-1" />
               Running
             </span>
           </div>
           <div className="flex items-center justify-between py-2">
-            <span className="text-slate-600">DNS Server</span>
+            <span className="text-[rgb(var(--text-secondary))]">DNS Server</span>
             <span className="flex items-center text-green-600">
               <CheckCircle className="w-4 h-4 mr-1" />
               Running
             </span>
           </div>
           <div className="flex items-center justify-between py-2">
-            <span className="text-slate-600">Web Server</span>
+            <span className="text-[rgb(var(--text-secondary))]">Web Server</span>
             <span className="flex items-center text-green-600">
               <CheckCircle className="w-4 h-4 mr-1" />
               Running
             </span>
           </div>
           <div className="flex items-center justify-between py-2">
-            <span className="text-slate-600">SSL Certificates</span>
+            <span className="text-[rgb(var(--text-secondary))]">SSL Certificates</span>
             <span className="flex items-center text-green-600">
               <CheckCircle className="w-4 h-4 mr-1" />
               Valid
