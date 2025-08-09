@@ -16,6 +16,7 @@ import {
   FileText
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import ThemeSelector from './ThemeSelector';
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: Activity },
@@ -49,7 +50,7 @@ export default function Navigation() {
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-200"
+          className="p-2 rounded-xl bg-[rgb(var(--bg-surface))/0.1] backdrop-blur-md border border-[rgb(var(--border-nav))] text-[rgb(var(--text-nav))] hover:bg-[rgb(var(--bg-surface))/0.2] transition-all duration-200"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -57,20 +58,20 @@ export default function Navigation() {
 
       {/* Sidebar */}
       <div className={`
-        fixed inset-y-0 left-0 z-40 w-72 bg-gradient-to-b from-slate-900 to-slate-800 
-        backdrop-blur-xl border-r border-white/10 transform transition-transform duration-300 ease-in-out
+        fixed inset-y-0 left-0 z-40 w-72 bg-[rgb(var(--bg-nav))] 
+        backdrop-blur-xl border-r border-[rgb(var(--border-nav))] transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0
       `}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="p-6 border-b border-white/10">
+          <div className="p-6 border-b border-[rgb(var(--border-nav))]">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-[rgb(var(--accent-primary))] to-[rgb(var(--accent-secondary))] rounded-xl flex items-center justify-center">
                 <Mail className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold text-white">Mailosaurus</h1>
-                <p className="text-sm text-slate-400">Control Panel</p>
+                <h1 className="text-xl font-semibold text-[rgb(var(--text-nav))]">Mailosaurus</h1>
+                <p className="text-sm text-[rgb(var(--text-nav-secondary))]">Control Panel</p>
               </div>
             </div>
           </div>
@@ -89,8 +90,8 @@ export default function Navigation() {
                   className={`
                     flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200
                     ${isActive 
-                      ? 'bg-white/10 text-white border border-white/20 shadow-lg' 
-                      : 'text-slate-300 hover:text-white hover:bg-white/5'
+                      ? 'bg-[rgb(var(--bg-surface))/0.1] text-[rgb(var(--text-nav))] border border-[rgb(var(--border-nav))] shadow-lg' 
+                      : 'text-[rgb(var(--text-nav-secondary))] hover:text-[rgb(var(--text-nav))] hover:bg-[rgb(var(--bg-surface))/0.05]'
                     }
                   `}
                 >
@@ -102,20 +103,25 @@ export default function Navigation() {
           </nav>
 
           {/* User section */}
-          <div className="p-4 border-t border-white/10">
+          <div className="p-4 border-t border-[rgb(var(--border-nav))]">
+            {/* Theme Selector */}
+            <div className="mb-4">
+              <ThemeSelector />
+            </div>
+            
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-br from-[rgb(var(--accent-primary))] to-[rgb(var(--accent-secondary))] rounded-lg flex items-center justify-center">
                   <User size={16} className="text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">Administrator</p>
-                  <p className="text-xs text-slate-400">Online</p>
+                  <p className="text-sm font-medium text-[rgb(var(--text-nav))]">Administrator</p>
+                  <p className="text-xs text-[rgb(var(--text-nav-secondary))]">Online</p>
                 </div>
               </div>
               <button
                 onClick={handleLogout}
-                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
+                className="p-2 rounded-lg text-[rgb(var(--text-nav-secondary))] hover:text-[rgb(var(--text-nav))] hover:bg-[rgb(var(--bg-surface))/0.05] transition-colors"
                 title="Logout"
               >
                 <LogOut size={16} />
