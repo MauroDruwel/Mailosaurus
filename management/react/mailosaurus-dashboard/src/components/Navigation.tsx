@@ -12,7 +12,8 @@ import {
   Menu,
   X,
   Users,
-  AtSign
+  AtSign,
+  FileText
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
@@ -21,6 +22,7 @@ const navigation = [
   { name: 'Users', href: '/users', icon: Users },
   { name: 'Aliases', href: '/aliases', icon: AtSign },
   { name: 'Mail Guide', href: '/mail-guide', icon: Mail },
+  { name: 'Email Reports', href: '/email-reports', icon: FileText },
   { name: 'System Status', href: '/system-status', icon: Activity },
   { name: 'SSL Certificates', href: '/ssl', icon: Shield },
   { name: 'Web', href: '/web', icon: Globe },

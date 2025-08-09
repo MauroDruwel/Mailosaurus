@@ -14,6 +14,7 @@ import WebPage from './pages/WebPage';
 import MFAPage from './pages/MFAPage';
 import MailGuidePage from './pages/MailGuidePage';
 import MuninPage from './pages/MuninPage';
+import EmailReportsPage from './pages/EmailReportsPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isAdmin, loading } = useAuth();
@@ -87,6 +88,11 @@ function App() {
           <Route path="/mail-guide" element={
             <ProtectedRoute>
               <MailGuidePage />
+            </ProtectedRoute>
+          } />
+          <Route path="/email-reports" element={
+            <ProtectedRoute>
+              <EmailReportsPage />
             </ProtectedRoute>
           } />
           <Route path="/system-status" element={
